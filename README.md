@@ -2,5 +2,6 @@
 
 HOW TO SET UP PROJECT
 1-install wamp server wich has php7
-3-create database named "maviance"
-4-import the file named "meviance.sql.zip" in this database
+2-create database named "maviance"
+3-import the file named "meviance.sql.zip" in this database
+4-copy the folder "maviance" and paste it to ("C:\wamp\www") for windows
