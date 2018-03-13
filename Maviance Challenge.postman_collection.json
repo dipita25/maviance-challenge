@@ -1,0 +1,164 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Maviance Challenge",
+		"_postman_id": "5f22beb3-ba72-68c7-e746-514f729de6bf",
+		"description": "ici se trouve les requetes de tests des API se rapportant au challenge qui m'a été donné par Maviance",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "API  REVERSE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if(postman.getEnvironmentVariable(\"temps\")){",
+							"    ",
+							"}",
+							"else{",
+							"    var obtenirCurrencies = function(){",
+							"    $.ajax({",
+							"        type: \"GET\",",
+							"        url: 'http://localhost/maviance/Rest/ApiGetCurrencies.php',",
+							"        contentType:\"application/json; charset=utf-8\",",
+							"        dataType: \"json\",",
+							"        success: function(data){",
+							"            ",
+							"        },",
+							"        error: function(error){",
+							"            alert(error);",
+							"        }",
+							"    });",
+							"};",
+							"",
+							"var last_execution = new Date().getTime();",
+							"",
+							"postman.setEnvironmentVariable(\"temps\", last_execution);",
+							"",
+							"obtenirCurrencies();",
+							"",
+							"setInterval(function(){ ",
+							"    ",
+							"    postman.setEnvironmentVariable(\"temps\", last_execution);",
+							"    obtenirCurrencies();",
+							" }, 300000",
+							");",
+							"",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost/maviance/Rest/ApiReverse.php",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "currency_reverse",
+							"value": "USD",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "amount_reverse",
+							"value": "50",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": "cette API permet d'envoyer une requete de type \"POST\" au serveur avec les données suivantes : une devise et un montant(en euro).et le serveur fera donc la conversion du montant dans la devise choisie\n"
+			},
+			"response": []
+		},
+		{
+			"name": "API  CONVERT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var obtenirCurrencies = function(){\r",
+							"    $.ajax({\r",
+							"        type: \"GET\",\r",
+							"        url: 'http://localhost/maviance/Rest/ApiGetCurrencies.php',\r",
+							"        contentType:\"application/json; charset=utf-8\",\r",
+							"        dataType: \"json\",\r",
+							"        success: function(data){\r",
+							"            \r",
+							"        },\r",
+							"        error: function(error){\r",
+							"            alert(error);\r",
+							"        }\r",
+							"    });\r",
+							"};\r",
+							"\r",
+							"var last_execution = new Date().getTime();\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"temps\", last_execution);\r",
+							"\r",
+							"obtenirCurrencies();\r",
+							"\r",
+							"setInterval(function(){ \r",
+							"    \r",
+							"    postman.setEnvironmentVariable(\"temps\", last_execution);\r",
+							"    obtenirCurrencies();\r",
+							" }, 300000\r",
+							");\r",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost/maviance/Rest/ApiConversion.php",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "currency",
+							"value": "USD",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "amount",
+							"value": "300",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": "cette API permet d'obtenir la valeur en EURO d'un montant donné dans une devise prise en charge par la Européan Central Bank\n\non fournit les valeurs respectives de la devise et le montant puis la requete nous retourne le montant convertit en EURO\n"
+			},
+			"response": []
+		}
+	]
+}
